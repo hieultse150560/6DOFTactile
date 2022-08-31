@@ -20,7 +20,7 @@ from threeD_viz_video import generateVideo
 from threeD_viz_image import generateImage
 
 parser = argparse.ArgumentParser(description='Process some integers.')
-parser.add_argument('--exp_dir', type=str, default='./train', help='Experiment path') #Change
+parser.add_argument('--exp_dir', type=str, default='./', help='Experiment path') #Change
 parser.add_argument('--exp', type=str, default='singlePeople', help='Name of experiment')
 parser.add_argument('--lr', type=float, default=1e-4, help='Learning rate') 
 parser.add_argument('--batch_size', type=int, default=32, help='Batch size,128')
