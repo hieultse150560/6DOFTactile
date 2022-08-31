@@ -7,17 +7,17 @@ import numpy as np
 import io, os
 import argparse
 from torch.utils.data import Dataset, DataLoader
-# from threeD_model_final import SpatialSoftmax3D, tile2openpose_conv3d
-# from threeD_dataLoader_batch import sample_data
-# from threeD_dataLoader import sample_data_diffTask
+from threeD_model_final import SpatialSoftmax3D, tile2openpose_conv3d
+from threeD_dataLoader import sample_data_diffTask
+from threeD_dataLoader import sample_data_diffTask2
 import pickle
 import torch
 import cv2
 import h5py
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from progressbar import ProgressBar
-# from threeD_viz_video import generateVideo
-# from threeD_viz_image import generateImage
+from threeD_viz_video import generateVideo
+from threeD_viz_image import generateImage
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--exp_dir', type=str, default='./train', help='Experiment path') #Change
