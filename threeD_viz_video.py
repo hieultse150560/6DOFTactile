@@ -5,7 +5,7 @@ import cv2
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import scipy.io
-# from utils_func import tactile_reading, findFrame, normalize, readTs, tactile_to_3channel, normalize_with_range
+from utils import tactile_reading, findFrame, normalize, readTs, tactile_to_3channel, normalize_with_range
 
 BODY_25_color = np.array([[255, 0, 0], [255, 51, 0], [255, 102, 0], [255, 153, 0], [255, 204, 0], [255, 255, 0], [204, 255, 0]
                          , [153, 255, 0], [102, 255, 0], [51, 255, 0], [0, 255, 0], [0, 255, 51], [0, 255, 102], [0,255,153]
