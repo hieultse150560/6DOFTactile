@@ -8,6 +8,7 @@ import logging
 import pickle
 import glob
 from utils import normalize
+from heatmap_from_keypoint3D import heatmap_from_keypoint
 
 # Trả về 1 đoạn input signal có size là 2 * window
 def window_select(data,timestep,window):
