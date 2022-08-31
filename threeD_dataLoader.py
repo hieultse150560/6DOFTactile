@@ -7,7 +7,7 @@ from torch.utils.data import Dataset
 import logging
 import pickle
 import glob
-# from utils_func import normalize
+from utils import normalize
 
 # Trả về 1 đoạn input signal có size là 2 * window
 def window_select(data,timestep,window):
