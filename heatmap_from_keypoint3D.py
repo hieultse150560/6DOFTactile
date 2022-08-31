@@ -6,7 +6,7 @@ import cv2
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import scipy.io
-# from utils_func import tactile_reading, findFrame, normalize, softmax, normalize_with_range
+from utils import tactile_reading, findFrame, normalize, softmax, normalize_with_range
 from scipy.ndimage import gaussian_filter
 from math import log10, floor
 import math
