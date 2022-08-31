@@ -132,7 +132,7 @@ if args.linkLoss:
 # args.exp_dir  -> /tactile_keypoint_data/
 #               -> /singlePerson_test/
 if not args.eval:
-    train_path = args.exp_dir + "/tactile_keypoint_data/"
+    train_path = args.exp_dir + "tactile_keypoint_data/"
     mask = []
     train_dataset = sample_data_diffTask(train_path, args.window, args.subsample, "train")
     train_dataloader = DataLoader(train_dataset, batch_size=args.batch_size,shuffle=True, num_workers=8)
