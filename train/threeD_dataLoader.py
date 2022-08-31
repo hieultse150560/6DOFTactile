@@ -47,7 +47,7 @@ class sample_data_diffTask(Dataset):
         if mode == "train":
           for i in range(0, len(self.touchs)-1):
             print ("Load data from: ", self.touchs[i], self.keypoints[i])
-            tactile = np.array(pickle.load(open(self.touchs[i], "rb")))[:K, :, :]
+            tactile = np.array(pickle.load(open(self.touchs[i], "rb")))
             keypointN, heatmapN = heatmap_from_keypoint(self.keypoints[i], xyz_range, size)
             # print(tactile.shape, keypointN.shape, heatmapN.shape)
             # print(np.max(tactile), np.min(tactile)) #1.0 and 0.0
@@ -55,9 +55,9 @@ class sample_data_diffTask(Dataset):
             heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
             keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
         else:
-          for i in range(-1):
+            i = len(self.touchs) - 1
             print ("Load data from: ", self.touchs[i], self.keypoints[i])
-            tactile = np.array(pickle.load(open(self.touchs[i], "rb")))[:K, :, :]
+            tactile = np.array(pickle.load(open(self.touchs[i], "rb")))
             keypointN, heatmapN = heatmap_from_keypoint(self.keypoints[i], xyz_range, size)
             # print(tactile.shape, keypointN.shape, heatmapN.shape)
             # print(np.max(tactile), np.min(tactile)) #1.0 and 0.0
