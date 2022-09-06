@@ -173,7 +173,7 @@ def heatmap_from_keypoint(keypoint_path, xyz_range, heatmap_size):
 
     print (pos_x.shape, pos_y.shape, pos_z.shape)
 
-    heatmap = np.zeros((K,21,int(size[0]),int(size[1]),int(size[2])), dtype=float32)
+    heatmap = np.zeros((keypoint.shape[0],21,int(size[0]),int(size[1]),int(size[2])), dtype=float32)
 
     b = np.array([[x_range[0], y_range[0], z_range[0]]])
     threshold = [0,1,0,1,0,1]
