@@ -152,7 +152,7 @@ if not args.eval:
 #     test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=8)
 #     print (len(test_dataset))
 
-print (args.exp, args.window, args.subsample, device)
+print (f"Name of experiment: {args.exp}, Window size: {args.window}, Subsample: {args.subsample}, Device: {device}")
 
 if __name__ == '__main__':
     np.random.seed(0)
@@ -166,7 +166,7 @@ if __name__ == '__main__':
     optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weightdecay)
     scheduler = ReduceLROnPlateau(optimizer, 'min', factor=0.8, patience=5, verbose=True)
     pytorch_total_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    print (pytorch_total_params)
+    print (f"Total parameters: {pytorch_total_params}")
     criterion = nn.MSELoss()
 
     # Fine tune
