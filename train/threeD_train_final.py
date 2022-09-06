@@ -18,6 +18,8 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 from progressbar import ProgressBar
 from threeD_viz_video import generateVideo
 from threeD_viz_image import generateImage
+import warnings
+warnings.filterwarnings("ignore")
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--exp_dir', type=str, default='./', help='Experiment path') #Change
