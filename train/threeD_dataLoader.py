@@ -68,6 +68,8 @@ class sample_data_diffTask(Dataset):
 
         self.data_in = [touch[1:,:,:], heatmap[1:,:,:,:,:], keypoint[1:,:,:]] # Tất cả data trừ sample đầu tiên
         self.window = window
+        for k in self.data_in:
+            print(k.shape[0],"HI")
 
     def __len__(self):
         # return self.length
