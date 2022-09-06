@@ -73,7 +73,7 @@ class sample_data_diffTask(Dataset):
 
     def __len__(self):
         # return self.length
-        return self.data_in[0].shape[0]
+        return self.data_in[1].shape[0] # Lấy timestamps của camera làm độ dài dataset
 
     def __getitem__(self, idx): #idx là iterator
         tactile = window_select(self.data_in[0],idx,self.window) # Frame of tactiles
