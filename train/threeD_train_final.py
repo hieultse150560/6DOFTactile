@@ -136,11 +136,11 @@ if not args.eval:
     mask = []
     train_dataset = sample_data_diffTask(train_path, args.window, args.subsample, "train")
     train_dataloader = DataLoader(train_dataset, batch_size=args.batch_size,shuffle=True, num_workers=8)
-    print (len(train_dataset))
+    print ("Training set size:", len(train_dataset))
 
     val_dataset = sample_data_diffTask(train_path, args.window, mask, args.subsample, "valid")
     val_dataloader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=8)
-    print (len(val_dataset))
+    print ("Validation set size: ", len(val_dataset))
 
 # Chuẩn bị data for testing
 if args.eval:
@@ -315,7 +315,7 @@ if __name__ == '__main__':
 
         train_loss = []
         val_loss = []
-        print ('here')
+        print ('Begin training')
 
         bar = ProgressBar(max_value=len(train_dataloader))
 
