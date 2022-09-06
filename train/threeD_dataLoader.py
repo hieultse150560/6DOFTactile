@@ -46,7 +46,7 @@ class sample_data_diffTask(Dataset):
         xyz_range = [[-100,1900],[-100,1900],[-1800,0]]
         size = [20, 20, 18] #define 3D space
         if mode == "train":
-          for i in range(0, len(self.touchs)-5): #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+          for i in range(0, len(self.touchs)-7): #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
             print ("Load data from: ", self.touchs[i], self.keypoints[i])
             tactile = np.array(pickle.load(open(self.touchs[i], "rb")))
             keypointN, heatmapN = heatmap_from_keypoint(self.keypoints[i], xyz_range, size)
