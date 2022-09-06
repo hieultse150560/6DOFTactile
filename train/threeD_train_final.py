@@ -138,7 +138,7 @@ if not args.eval:
     train_dataloader = DataLoader(train_dataset, batch_size=args.batch_size,shuffle=True, num_workers=8)
     print ("Training set size:", len(train_dataset))
 
-    val_dataset = sample_data_diffTask(train_path, args.window, mask, args.subsample, "valid")
+    val_dataset = sample_data_diffTask(train_path, args.window, args.subsample, "valid")
     val_dataloader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=8)
     print ("Validation set size: ", len(val_dataset))
     
