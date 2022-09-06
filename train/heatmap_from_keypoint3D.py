@@ -171,7 +171,7 @@ def heatmap_from_keypoint(keypoint_path, xyz_range, heatmap_size):
         np.linspace(0., 1., int(size[1])),
         np.linspace(0., 1., int(size[2])))
 
-    print (pos_x.shape, pos_y.shape, pos_z.shape)
+#     print (pos_x.shape, pos_y.shape, pos_z.shape)
 
     heatmap = np.zeros((keypoint.shape[0],21,int(size[0]),int(size[1]),int(size[2])), dtype=float32)
 
@@ -179,10 +179,10 @@ def heatmap_from_keypoint(keypoint_path, xyz_range, heatmap_size):
     threshold = [0,1,0,1,0,1]
     keypoint = normalize_with_range((keypoint - b)/resolution, max(size)-1, 0) # Đưa về resolution (20,20,18)
     keypoint = remove_keypoint_artifact(keypoint, threshold)
-    print (np.amax(keypoint), np.amin(keypoint))
+#     print (np.amax(keypoint), np.amin(keypoint))
     for i in range(keypoint.shape[0]):
-        if i % 500 == 0:
-            print (i)
+#         if i % 500 == 0:
+#             print (i)
         # print (i)
         frame = np.reshape(keypoint[i,:,:], (21,3))
 
