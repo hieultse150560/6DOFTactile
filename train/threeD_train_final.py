@@ -325,7 +325,7 @@ if __name__ == '__main__':
             tactile = torch.tensor(sample_batched[0], dtype=torch.float, device=device)
             heatmap = torch.tensor(sample_batched[1], dtype=torch.float, device=device)
             keypoint = torch.tensor(sample_batched[2], dtype=torch.float, device=device)
-            idx = torch.tensor(sample_batched[4], dtype=torch.float, device=device)
+            idx = torch.tensor(sample_batched[3], dtype=torch.float, device=device)
 
             with torch.set_grad_enabled(True):
                 heatmap_out = model(tactile, device)
