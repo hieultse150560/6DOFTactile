@@ -46,25 +46,35 @@ class sample_data_diffTask(Dataset):
         xyz_range = [[-100,1900],[-100,1900],[-1800,0]]
         size = [20, 20, 18] #define 3D space
         if mode == "train":
-          for i in range(0, len(self.touchs)-7): #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-            print ("Load data from: ", self.touchs[i], self.keypoints[i])
-            tactile = np.array(pickle.load(open(self.touchs[i], "rb")))
-            keypointN, heatmapN = heatmap_from_keypoint(self.keypoints[i], xyz_range, size)
-            # print(tactile.shape, keypointN.shape, heatmapN.shape)
-            # print(np.max(tactile), np.min(tactile)) #1.0 and 0.0
-            touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
-            heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
-            keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
+            for i in range(0, len(self.touchs)-4): #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                print ("Load data from: ", self.touchs[i], self.keypoints[i])
+                tactile = np.array(pickle.load(open(self.touchs[i], "rb")))
+                keypointN, heatmapN = heatmap_from_keypoint(self.keypoints[i], xyz_range, size)
+                # print(tactile.shape, keypointN.shape, heatmapN.shape)
+                # print(np.max(tactile), np.min(tactile)) #1.0 and 0.0
+                touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
+                heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
+                keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
+        elif mode == "val":
+            for i in range(len(self.touchs)-4, len(self.touchs) - 2): #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                print ("Load data from: ", self.touchs[i], self.keypoints[i])
+                tactile = np.array(pickle.load(open(self.touchs[i], "rb")))
+                keypointN, heatmapN = heatmap_from_keypoint(self.keypoints[i], xyz_range, size)
+                # print(tactile.shape, keypointN.shape, heatmapN.shape)
+                # print(np.max(tactile), np.min(tactile)) #1.0 and 0.0
+                touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
+                heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
+                keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
         else:
-            i = len(self.touchs) - 1
-            print ("Load data from: ", self.touchs[i], self.keypoints[i])
-            tactile = np.array(pickle.load(open(self.touchs[i], "rb")))
-            keypointN, heatmapN = heatmap_from_keypoint(self.keypoints[i], xyz_range, size)
-            # print(tactile.shape, keypointN.shape, heatmapN.shape)
-            # print(np.max(tactile), np.min(tactile)) #1.0 and 0.0
-            touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
-            heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
-            keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
+            for i in range(len(self.touchs)-2, len(self.touchs)): #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                print ("Load data from: ", self.touchs[i], self.keypoints[i])
+                tactile = np.array(pickle.load(open(self.touchs[i], "rb")))
+                keypointN, heatmapN = heatmap_from_keypoint(self.keypoints[i], xyz_range, size)
+                # print(tactile.shape, keypointN.shape, heatmapN.shape)
+                # print(np.max(tactile), np.min(tactile)) #1.0 and 0.0
+                touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
+                heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
+                keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
 
         self.data_in = [touch[1:,:,:], heatmap[1:,:,:,:,:], keypoint[1:,:,:]] # Tất cả data trừ sample đầu tiên
         self.window = window
