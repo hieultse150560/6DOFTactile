@@ -144,14 +144,18 @@ if not args.eval:
     val_dataloader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=8)
     print ("Validation set size: ", len(val_dataset))
     
-#!!!!!!!!!!!!!!!!!!!!!
-Chuẩn bị data for testing
-if args.eval:
-    test_path = args.test_dir
-    mask = []
     test_dataset = sample_data_diffTask(test_path, args.window, args.subsample, "test")
     test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=8)
     print ("Test set size: ", len(test_dataset))
+    
+#!!!!!!!!!!!!!!!!!!!!!
+# Chuẩn bị data for testing
+# if args.eval:
+#     test_path = args.test_dir
+#     mask = []
+#     test_dataset = sample_data_diffTask(test_path, args.window, args.subsample, "test")
+#     test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=8)
+#     print ("Test set size: ", len(test_dataset))
 
 print (f"Name of experiment: {args.exp}, Window size: {args.window}, Subsample: {args.subsample}, Device: {device}")
 
