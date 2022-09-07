@@ -443,7 +443,7 @@ if __name__ == '__main__':
        pickle.dump(dis, open(args.exp_dir + 'predictions/L2/'+ args.ckpt + '_dis.p', "wb"))
        print ("keypoint_dis_saved:", dis.shape)
 
-     '''video viz'''
+    '''video viz'''
     # Tạo video
     if args.exp_video:
        to_save = [heatmap_GT_v[1:,:,:,:,:], heatmap_pred_v[1:,:,:,:,:],
