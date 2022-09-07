@@ -442,7 +442,7 @@ if __name__ == '__main__':
        dis = get_keypoint_spatial_dis(keypoint_GT_log[1:,:,:], keypoint_pred_log[1:,:,:])
        pickle.dump(dis, open(args.exp_dir + 'predictions/L2/'+ args.ckpt + '_dis.p', "wb"))
        print ("keypoint_dis_saved:", dis.shape)
-
+              
     '''video viz'''
     # Tạo video
     if args.exp_video:
