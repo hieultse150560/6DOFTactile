@@ -435,24 +435,23 @@ if __name__ == '__main__':
 
         avg_val_loss.append(loss.data.item())
     print ("Loss:", np.mean(avg_val_loss))
-
-    '''output L2 distance'''
+    
     # Nếu có lưu lại kết quả distance giữa các keypoint để kiểm nghiệm (sau khi đã xếp chồng)
     if args.exp_L2:
-       dis = get_keypoint_spatial_dis(keypoint_GT_log[1:,:,:], keypoint_pred_log[1:,:,:])
-       pickle.dump(dis, open(args.exp_dir + 'predictions/L2/'+ args.ckpt + '_dis.p', "wb"))
-       print ("keypoint_dis_saved:", dis.shape)
-              
-    '''video viz'''
+        dis = get_keypoint_spatial_dis(keypoint_GT_log[1:,:,:], keypoint_pred_log[1:,:,:])
+        pickle.dump(dis, open(args.exp_dir + 'predictions/L2/'+ args.ckpt + '_dis.p', "wb"))
+        print ("keypoint_dis_saved:", dis.shape)
+ 
     # Tạo video
     if args.exp_video:
-       to_save = [heatmap_GT_v[1:,:,:,:,:], heatmap_pred_v[1:,:,:,:,:],
+        
+        to_save = [heatmap_GT_v[1:,:,:,:,:], heatmap_pred_v[1:,:,:,:,:],
                       keypoint_GT_v[1:,:,:], keypoint_pred_v[1:,:,:],
                       tactile_GT_v[1:,:,:]]
 
-       print (to_save[0].shape, to_save[1].shape, to_save[2].shape, to_save[3].shape, to_save[4].shape)
+        print (to_save[0].shape, to_save[1].shape, to_save[2].shape, to_save[3].shape, to_save[4].shape)
 
-       generateVideo(to_save,
+        generateVideo(to_save,
                   args.exp_dir + 'predictions/video/' + args.ckpt,
                   heatmap=True)
 
