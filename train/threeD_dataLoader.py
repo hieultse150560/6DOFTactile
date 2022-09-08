@@ -91,7 +91,7 @@ class sample_data_diffTask(Dataset):
 
         touch = touch[1:,:,:]
         heatmap = heatmap[1:,:,:,:,:]
-        keypoint = keypoint[1:,:,:]] # Tất cả data trừ sample đầu tiên
+        keypoint = keypoint[1:,:,:] # Tất cả data trừ sample đầu tiên
         self.window = window
 
     def __len__(self):
