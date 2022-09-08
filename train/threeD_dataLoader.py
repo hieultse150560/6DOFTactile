@@ -43,6 +43,9 @@ class sample_data_diffTask(Dataset):
         touch = np.empty((1,96,96))
         heatmap = np.empty((1,21,20,20,18))
         keypoint = np.empty((1,21,3))
+#         touch = torch.empty((1,96,96))
+#         heatmap = torch.empty((1,21,20,20,18))
+#         keypoint = torch.empty((1,21,3))
         xyz_range = [[-100,1900],[-100,1900],[-1800,0]]
         size = [20, 20, 18] #define 3D space
         if mode == "train":
@@ -55,6 +58,10 @@ class sample_data_diffTask(Dataset):
                 touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
                 heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
                 keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
+#                 touch = torch.cat((torch.from_numpy(touch), torch.from_numpy(tactile)), 0) # Đọc dữ liệu và xếp chồng
+#                 heatmap = torch.cat((torch.from_numpy(heatmap), torch.from_numpy(heatmapN)), 0) # Đọc dữ liệu và xếp chống
+#                 keypoint = torch.cat((torch.from_numpy(keypoint), torch.from_numpy(keypointN)), 0) # Đọc dữ liệu và xếp chống
+            
         elif mode == "val":
             for i in range(len(self.touchs)-4, len(self.touchs) - 2): #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 print ("Load data from: ", self.touchs[i], self.keypoints[i])
@@ -65,6 +72,9 @@ class sample_data_diffTask(Dataset):
                 touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
                 heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
                 keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
+#                 touch = torch.cat((torch.from_numpy(touch), torch.from_numpy(tactile)), 0) # Đọc dữ liệu và xếp chồng
+#                 heatmap = torch.cat((torch.from_numpy(heatmap), torch.from_numpy(heatmapN)), 0) # Đọc dữ liệu và xếp chống
+#                 keypoint = torch.cat((torch.from_numpy(keypoint), torch.from_numpy(keypointN)), 0) # Đọc dữ liệu và xếp chống
         else:
             for i in range(len(self.touchs)-2, len(self.touchs)): #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 print ("Load data from: ", self.touchs[i], self.keypoints[i])
@@ -75,26 +85,29 @@ class sample_data_diffTask(Dataset):
                 touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
                 heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
                 keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
+#                 touch = torch.cat((torch.from_numpy(touch), torch.from_numpy(tactile)), 0) # Đọc dữ liệu và xếp chồng
+#                 heatmap = torch.cat((torch.from_numpy(heatmap), torch.from_numpy(heatmapN)), 0) # Đọc dữ liệu và xếp chống
+#                 keypoint = torch.cat((torch.from_numpy(keypoint), torch.from_numpy(keypointN)), 0) # Đọc dữ liệu và xếp chống
 
-        self.data_in = [touch[1:,:,:], heatmap[1:,:,:,:,:], keypoint[1:,:,:]] # Tất cả data trừ sample đầu tiên
+        touch = touch[1:,:,:]
+        heatmap = heatmap[1:,:,:,:,:]
+        keypoint = keypoint[1:,:,:]] # Tất cả data trừ sample đầu tiên
         self.window = window
-        for k in self.data_in:
-            print(k.shape[0],"HI")
 
     def __len__(self):
         # return self.length
         return self.data_in[1].shape[0] # Lấy timestamps của camera làm độ dài dataset
 
     def __getitem__(self, idx): #idx là iterator
-        tactile = window_select(self.data_in[0],idx,self.window) # Frame of tactiles
-        heatmap = self.data_in[1][idx,:,:,:,:] # Headmap
-        keypoint = self.data_in[2][idx,:,:] # Keypoint
-        tactile_frame = self.data_in[0][idx,:,:] # Middle Frame
+        tactileU = touch(touch,idx,self.window) # Frame of tactiles
+        heatmapU = heatmap[idx,:,:,:,:] # Headmap
+        keypointU = keypoint[idx,:,:] # Keypoint
+        tactile_frameU = touch[idx,:,:] # Middle Frame
 
         if self.subsample > 1:
-            tactile = get_subsample(tactile, self.subsample) # Nếu có chia theo subsample thì tính trung bình cacs pixel theo giá trị subsample
+            tactileU = get_subsample(tactileU, self.subsample) # Nếu có chia theo subsample thì tính trung bình cacs pixel theo giá trị subsample
 
-        return tactile, heatmap, keypoint, tactile_frame # Lấy M frames xung quanh 1 middle frame + heatmap + keypoint của middle frame
+        return tactileU, heatmapU, keypointU, tactile_frameU # Lấy M frames xung quanh 1 middle frame + heatmap + keypoint của middle frame
 
 class sample_data_diffTask2(Dataset):
     def __init__(self, path, window, subsample):
