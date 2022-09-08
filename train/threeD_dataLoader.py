@@ -43,9 +43,9 @@ class sample_data_diffTask(Dataset):
         touch = np.empty((1,96,96))
         heatmap = np.empty((1,21,20,20,18))
         keypoint = np.empty((1,21,3))
-#         touch = torch.empty((1,96,96))
-#         heatmap = torch.empty((1,21,20,20,18))
-#         keypoint = torch.empty((1,21,3))
+        touch = torch.empty((1,96,96))
+        heatmap = torch.empty((1,21,20,20,18))
+        keypoint = torch.empty((1,21,3))
         xyz_range = [[-100,1900],[-100,1900],[-1800,0]]
         size = [20, 20, 18] #define 3D space
         if mode == "train":
@@ -55,12 +55,12 @@ class sample_data_diffTask(Dataset):
                 keypointN, heatmapN = heatmap_from_keypoint(self.keypoints[i], xyz_range, size)
                 # print(tactile.shape, keypointN.shape, heatmapN.shape)
                 # print(np.max(tactile), np.min(tactile)) #1.0 and 0.0
-                touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
-                heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
-                keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
-#                 touch = torch.cat((torch.from_numpy(touch), torch.from_numpy(tactile)), 0) # Đọc dữ liệu và xếp chồng
-#                 heatmap = torch.cat((torch.from_numpy(heatmap), torch.from_numpy(heatmapN)), 0) # Đọc dữ liệu và xếp chống
-#                 keypoint = torch.cat((torch.from_numpy(keypoint), torch.from_numpy(keypointN)), 0) # Đọc dữ liệu và xếp chống
+#                 touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
+#                 heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
+#                 keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
+                touch = torch.cat((torch.from_numpy(touch), torch.from_numpy(tactile)), 0) # Đọc dữ liệu và xếp chồng
+                heatmap = torch.cat((torch.from_numpy(heatmap), torch.from_numpy(heatmapN)), 0) # Đọc dữ liệu và xếp chống
+                keypoint = torch.cat((torch.from_numpy(keypoint), torch.from_numpy(keypointN)), 0) # Đọc dữ liệu và xếp chống
             
         elif mode == "val":
             for i in range(len(self.touchs)-4, len(self.touchs) - 2): #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -69,12 +69,12 @@ class sample_data_diffTask(Dataset):
                 keypointN, heatmapN = heatmap_from_keypoint(self.keypoints[i], xyz_range, size)
                 # print(tactile.shape, keypointN.shape, heatmapN.shape)
                 # print(np.max(tactile), np.min(tactile)) #1.0 and 0.0
-                touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
-                heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
-                keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
-#                 touch = torch.cat((torch.from_numpy(touch), torch.from_numpy(tactile)), 0) # Đọc dữ liệu và xếp chồng
-#                 heatmap = torch.cat((torch.from_numpy(heatmap), torch.from_numpy(heatmapN)), 0) # Đọc dữ liệu và xếp chống
-#                 keypoint = torch.cat((torch.from_numpy(keypoint), torch.from_numpy(keypointN)), 0) # Đọc dữ liệu và xếp chống
+#                 touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
+#                 heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
+#                 keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
+                touch = torch.cat((torch.from_numpy(touch), torch.from_numpy(tactile)), 0) # Đọc dữ liệu và xếp chồng
+                heatmap = torch.cat((torch.from_numpy(heatmap), torch.from_numpy(heatmapN)), 0) # Đọc dữ liệu và xếp chống
+                keypoint = torch.cat((torch.from_numpy(keypoint), torch.from_numpy(keypointN)), 0) # Đọc dữ liệu và xếp chống
         else:
             for i in range(len(self.touchs)-2, len(self.touchs)): #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 print ("Load data from: ", self.touchs[i], self.keypoints[i])
@@ -82,12 +82,12 @@ class sample_data_diffTask(Dataset):
                 keypointN, heatmapN = heatmap_from_keypoint(self.keypoints[i], xyz_range, size)
                 # print(tactile.shape, keypointN.shape, heatmapN.shape)
                 # print(np.max(tactile), np.min(tactile)) #1.0 and 0.0
-                touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
-                heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
-                keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
-#                 touch = torch.cat((torch.from_numpy(touch), torch.from_numpy(tactile)), 0) # Đọc dữ liệu và xếp chồng
-#                 heatmap = torch.cat((torch.from_numpy(heatmap), torch.from_numpy(heatmapN)), 0) # Đọc dữ liệu và xếp chống
-#                 keypoint = torch.cat((torch.from_numpy(keypoint), torch.from_numpy(keypointN)), 0) # Đọc dữ liệu và xếp chống
+#                 touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
+#                 heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
+#                 keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
+                touch = torch.cat((torch.from_numpy(touch), torch.from_numpy(tactile)), 0) # Đọc dữ liệu và xếp chồng
+                heatmap = torch.cat((torch.from_numpy(heatmap), torch.from_numpy(heatmapN)), 0) # Đọc dữ liệu và xếp chống
+                keypoint = torch.cat((torch.from_numpy(keypoint), torch.from_numpy(keypointN)), 0) # Đọc dữ liệu và xếp chống
 
         touch = touch[1:,:,:]
         heatmap = heatmap[1:,:,:,:,:]
@@ -96,10 +96,10 @@ class sample_data_diffTask(Dataset):
 
     def __len__(self):
         # return self.length
-        return self.data_in[1].shape[0] # Lấy timestamps của camera làm độ dài dataset
+        return heatmap.shape[0] # Lấy timestamps của camera làm độ dài dataset
 
     def __getitem__(self, idx): #idx là iterator
-        tactileU = touch(touch,idx,self.window) # Frame of tactiles
+        tactileU = window_select(touch,idx,self.window) # Frame of tactiles
         heatmapU = heatmap[idx,:,:,:,:] # Headmap
         keypointU = keypoint[idx,:,:] # Keypoint
         tactile_frameU = touch[idx,:,:] # Middle Frame
