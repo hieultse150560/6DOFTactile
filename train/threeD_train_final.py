@@ -33,7 +33,7 @@ parser.add_argument('--linkLoss', type=bool, default=True, help='use link loss')
 parser.add_argument('--epoch', type=int, default=500, help='The time steps you want to subsample the dataset to,500')
 parser.add_argument('--ckpt', type=str, default ='singlePerson_0.0001_10_best', help='loaded ckpt file') # Enter link of trained model
 parser.add_argument('--eval', type=bool, default=False, help='Set true if eval time') # Evaluation with test data. 2 Mode: Loading trained model and evaluate with test set, Training and Evaluation with evaluation set. 
-parser.add_argument('--test_dir', type=str, default ='./singlePerson_test/', help='test data path') # Link to test data
+parser.add_argument('--test_dir', type=str, default ='./', help='test data path') # Link to test data
 parser.add_argument('--exp_image', type=bool, default=True, help='Set true if export predictions as images')
 parser.add_argument('--exp_video', type=bool, default=True, help='Set true if export predictions as video')
 parser.add_argument('--exp_data', type=bool, default=False, help='Set true if export predictions as raw data')
@@ -144,7 +144,7 @@ if not args.eval:
     val_dataloader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=8)
     print ("Validation set size: ", len(val_dataset))
     
-    test_dataset = sample_data_diffTask(test_path, args.window, args.subsample, "test")
+    test_dataset = sample_data_diffTask(train_path, args.window, args.subsample, "test")
     test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=8)
     print ("Test set size: ", len(test_dataset))
     
