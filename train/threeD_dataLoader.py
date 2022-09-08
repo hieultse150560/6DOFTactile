@@ -40,9 +40,9 @@ class sample_data_diffTask(Dataset):
         self.touchs = glob.glob(os.path.join(path, "[P]*", "touch_normalized.p"))
         self.keypoints = glob.glob(os.path.join(path, "[P]*", "keypoint_transform.p"))
         self.subsample = subsample
-        touch = np.empty((1,96,96))
-        heatmap = np.empty((1,21,20,20,18))
-        keypoint = np.empty((1,21,3))
+#         touch = np.empty((1,96,96))
+#         heatmap = np.empty((1,21,20,20,18))
+#         keypoint = np.empty((1,21,3))
         touch = torch.empty((1,96,96))
         heatmap = torch.empty((1,21,20,20,18))
         keypoint = torch.empty((1,21,3))
@@ -58,9 +58,9 @@ class sample_data_diffTask(Dataset):
 #                 touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
 #                 heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
 #                 keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
-                touch = torch.cat((touch, torch.from_numpy(tactile)), 0) # Đọc dữ liệu và xếp chồng
-                heatmap = torch.cat((heatmap, torch.from_numpy(heatmapN)), 0) # Đọc dữ liệu và xếp chống
-                keypoint = torch.cat((keypoint, torch.from_numpy(keypointN)), 0) # Đọc dữ liệu và xếp chống
+                touch = torch.cat((touch, torch.from_numpy(tactile)), 0).to("cuda:0") # Đọc dữ liệu và xếp chồng
+                heatmap = torch.cat((heatmap, torch.from_numpy(heatmapN)), 0).to("cuda:0")  # Đọc dữ liệu và xếp chống
+                keypoint = torch.cat((keypoint, torch.from_numpy(keypointN)), 0).to("cuda:0")  # Đọc dữ liệu và xếp chống
             
         elif mode == "val":
             for i in range(len(self.touchs)-4, len(self.touchs) - 2): #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -72,9 +72,9 @@ class sample_data_diffTask(Dataset):
 #                 touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
 #                 heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
 #                 keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
-                touch = torch.cat((touch, torch.from_numpy(tactile)), 0) # Đọc dữ liệu và xếp chồng
-                heatmap = torch.cat((heatmap, torch.from_numpy(heatmapN)), 0) # Đọc dữ liệu và xếp chống
-                keypoint = torch.cat((keypoint, torch.from_numpy(keypointN)), 0) # Đọc dữ liệu và xếp chống
+                touch = torch.cat((touch, torch.from_numpy(tactile)), 0).to("cuda:1")  # Đọc dữ liệu và xếp chồng
+                heatmap = torch.cat((heatmap, torch.from_numpy(heatmapN)), 0).to("cuda:1")  # Đọc dữ liệu và xếp chống
+                keypoint = torch.cat((keypoint, torch.from_numpy(keypointN)), 0).to("cuda:1")  # Đọc dữ liệu và xếp chống
         else:
             for i in range(len(self.touchs)-2, len(self.touchs)): #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 print ("Load data from: ", self.touchs[i], self.keypoints[i])
@@ -85,9 +85,9 @@ class sample_data_diffTask(Dataset):
 #                 touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
 #                 heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
 #                 keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
-                touch = torch.cat((touch, torch.from_numpy(tactile)), 0) # Đọc dữ liệu và xếp chồng
-                heatmap = torch.cat((heatmap, torch.from_numpy(heatmapN)), 0) # Đọc dữ liệu và xếp chống
-                keypoint = torch.cat((keypoint, torch.from_numpy(keypointN)), 0) # Đọc dữ liệu và xếp chống
+                touch = torch.cat((touch, torch.from_numpy(tactile)), 0).to("cuda:2")  # Đọc dữ liệu và xếp chồng
+                heatmap = torch.cat((heatmap, torch.from_numpy(heatmapN)), 0).to("cuda:2")  # Đọc dữ liệu và xếp chống
+                keypoint = torch.cat((keypoint, torch.from_numpy(keypointN)), 0).to("cuda:2")  # Đọc dữ liệu và xếp chống
 
         touch = touch[1:,:,:]
         heatmap = heatmap[1:,:,:,:,:]
