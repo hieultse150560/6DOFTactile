@@ -74,7 +74,7 @@ class sample_data_diffTask_Data(Dataset):
 
         return tactileU, heatmapU, keypointU, tactile_frameU # Lấy M frames xung quanh 1 middle frame + heatmap + keypoint của middle frame
 
-num = 7
+num = 8
 train_dataset = sample_data_diffTask_Data("./tactile_keypoint_data/", 10, 1, num)
 train_dataloader = DataLoader(train_dataset, batch_size=1,shuffle=True)
 bar = ProgressBar(max_value=len(train_dataloader))
@@ -82,7 +82,7 @@ print ("Training set size:", len(train_dataset))
 with open("index.p", "rb") as f:
   i = pickle.load(f)
 for sample_batched in bar(train_dataloader):
-  with open(f"./batch_data/val/{i}.p", "wb") as f2:
+  with open(f"./batch_data/test/{i}.p", "wb") as f2:
     pickle.dump(sample_batched, f2)
     print(f"Saving to {i}.p file") 
   i += 1
