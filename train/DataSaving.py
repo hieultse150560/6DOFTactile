@@ -83,7 +83,7 @@ with open("index.p", "rb") as f:
   i = pickle.load(f)
 for sample_batched in bar(train_dataloader):
   with open(f"./batch_data/{i}.p", "wb") as f2:
-    pickle.save(sample_batched, f2)
+    pickle.dump(sample_batched, f2)
     print(f"Saving to {i}.p file") 
   i += 1
 with open("index.p", "wb") as f3:
