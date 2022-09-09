@@ -74,7 +74,7 @@ class sample_data_diffTask_Data(Dataset):
 
         return tactileU, heatmapU, keypointU, tactile_frameU # Lấy M frames xung quanh 1 middle frame + heatmap + keypoint của middle frame
 
-num = 0
+num = 2
 train_dataset = sample_data_diffTask_Data("./tactile_keypoint_data/", 10, 1, num)
 train_dataloader = DataLoader(train_dataset, batch_size=1,shuffle=True)
 bar = ProgressBar(max_value=len(train_dataloader))
