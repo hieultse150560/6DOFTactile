@@ -87,3 +87,4 @@ for sample_batched in bar(train_dataloader):
   i += 1
 with open("index.p", "wb") as f3:
   pickle.dump(i, f3)
+  print(f"Saving index: {i}")
