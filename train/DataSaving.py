@@ -4,6 +4,7 @@ import h5py
 import numpy as np
 import torch
 from torch.utils.data import Dataset, DataLoader
+from progressbar import ProgressBar
 import logging
 import pickle
 import glob
