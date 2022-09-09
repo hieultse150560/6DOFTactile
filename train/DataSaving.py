@@ -46,9 +46,9 @@ class sample_data_diffTask_Data(Dataset):
         keypoint = np.empty((1,21,3))
         xyz_range = [[-100,1900],[-100,1900],[-1800,0]]
         size = [20, 20, 18] #define 3D space
-        print ("Load data from: ", self.touchs[idx], self.keypoints[idx])
-        tactile = np.array(pickle.load(open(self.touchs[i], "rb")))
-        keypointN, heatmapN = heatmap_from_keypoint(self.keypoints[i], xyz_range, size)
+        print ("Load data from: ", self.touchs[self.index], self.keypoints[self.index])
+        tactile = np.array(pickle.load(open(self.touchs[self.index], "rb")))
+        keypointN, heatmapN = heatmap_from_keypoint(self.keypoints[self.index], xyz_range, size)
         touch = np.append(touch, tactile, axis=0) # Đọc dữ liệu và xếp chồng
         heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
         keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
@@ -81,7 +81,7 @@ print ("Training set size:", len(train_dataset))
 with open("index.p", "rb") as f:
   i = pickle.load(f)
 for sample_batched in bar(train_dataloader):
-  with open(f"{i}.p", "rb") as f2:
+  with open(f"./tactile_keypoint_data/{i}.p", "rb") as f2:
     pickle.save(sample_batched, f2)
     print(f"Saving to {i}.p file") 
   i += 1
