@@ -53,20 +53,20 @@ class sample_data_diffTask_Data(Dataset):
         heatmap = np.append(heatmap, heatmapN, axis=0) # Đọc dữ liệu và xếp chống
         keypoint = np.append(keypoint, keypointN, axis=0) # Đọc dữ liệu và xếp chống
 
-        touch = touch[1:,:,:]
-        heatmap = heatmap[1:,:,:,:,:]
-        keypoint = keypoint[1:,:,:] # Tất cả data trừ sample đầu tiên
+        self.touch = touch[1:,:,:]
+        self.heatmap = heatmap[1:,:,:,:,:]
+        self.keypoint = keypoint[1:,:,:] # Tất cả data trừ sample đầu tiên
         self.window = window
 
     def __len__(self):
         # return self.length
-        return heatmap.shape[0] # Lấy timestamps của camera làm độ dài dataset
+        return self.heatmap.shape[0] # Lấy timestamps của camera làm độ dài dataset
 
     def __getitem__(self, idx): #idx là iterator
-        tactileU = window_select(touch,idx,self.window) # Frame of tactiles
-        heatmapU = heatmap[idx,:,:,:,:] # Headmap
-        keypointU = keypoint[idx,:,:] # Keypoint
-        tactile_frameU = touch[idx,:,:] # Middle Frame
+        tactileU = window_select(self.touch,idx,self.window) # Frame of tactiles
+        heatmapU = self.heatmap[idx,:,:,:,:] # Headmap
+        keypointU = self.keypoint[idx,:,:] # Keypoint
+        tactile_frameU = self.touch[idx,:,:] # Middle Frame
 
         if self.subsample > 1:
             tactileU = get_subsample(tactileU, self.subsample) # Nếu có chia theo subsample thì tính trung bình cacs pixel theo giá trị subsample
