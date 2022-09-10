@@ -122,7 +122,7 @@ class sample_data_diffTask_2(Dataset):
 
     def __getitem__(self, idx): #idx là iterator
         with open(self.files[idx], "rb") as f:
-            sample_batched = pick.load(f)
+            sample_batched = pickle.load(f)
         tactileU = sample_batched[0] # Frame of tactiles
         heatmapU = sample_batched[1] # Headmap
         keypointU = sample_batched[2] # Keypoint
