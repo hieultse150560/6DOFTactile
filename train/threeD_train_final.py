@@ -9,7 +9,7 @@ import argparse
 from torch.utils.data import Dataset, DataLoader
 from threeD_model_final import SpatialSoftmax3D, tile2openpose_conv3d
 from threeD_dataLoader import sample_data_diffTask
-from threeD_dataLoader import sample_data_diffTask2
+from threeD_dataLoader import sample_data_diffTask_2
 import pickle
 import torch
 import cv2
@@ -140,11 +140,11 @@ if not args.eval:
     train_dataloader = DataLoader(train_dataset, batch_size=args.batch_size,shuffle=True, num_workers=8)
     print ("Training set size:", len(train_dataset))
 
-    val_dataset = sample_data_diffTask(train_path, args.window, args.subsample, "val")
+    val_dataset = sample_data_diffTask_2(train_path, args.window, args.subsample, "val")
     val_dataloader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=8)
     print ("Validation set size: ", len(val_dataset))
     
-    test_dataset = sample_data_diffTask(train_path, args.window, args.subsample, "test")
+    test_dataset = sample_data_diffTask_2(train_path, args.window, args.subsample, "test")
     test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=8)
     print ("Test set size: ", len(test_dataset))
     
