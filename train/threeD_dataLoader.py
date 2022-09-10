@@ -118,10 +118,10 @@ class sample_data_diffTask_2(Dataset):
 
     def __len__(self):
         # return self.length
-        return len(files) # Lấy timestamps của camera làm độ dài dataset
+        return len(self.files) # Lấy timestamps của camera làm độ dài dataset
 
     def __getitem__(self, idx): #idx là iterator
-        with open(files[idx], "rb") as f:
+        with open(self.files[idx], "rb") as f:
             sample_batched = pick.load(f)
         tactileU = sample_batched[0] # Frame of tactiles
         heatmapU = sample_batched[1] # Headmap
