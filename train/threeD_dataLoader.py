@@ -109,62 +109,26 @@ class sample_data_diffTask(Dataset):
 
         return tactileU, heatmapU, keypointU, tactile_frameU # Lấy M frames xung quanh 1 middle frame + heatmap + keypoint của middle frame
 
-class sample_data_diffTask2(Dataset):
-    def __init__(self, path, window, subsample):
+class sample_data_diffTask_2(Dataset):
+    def __init__(self, path, window, subsample, mode):
         self.path = path
-        self.files = os.listdir(self.path)
+        self.files = glob.glob(os.path.join(path, mode, "*.p"))
         self.subsample = subsample
-        touch = np.empty((1,96,96))
-        heatmap = np.empty((1,21,20,20,18))
-        keypoint = np.empty((1,21,3))
-        count = 0
-
-        for f in self.files:
-            count += 1
-            print (f, count)
-            data = pickle.load(open(self.path + f, "rb"))
-            touch = np.append(touch, data[0], axis=0)
-            heatmap = np.append(heatmap, data[1], axis=0)
-            keypoint = np.append(keypoint, data[2], axis=0)
-
-
-        self.data_in = [touch[1:,:,:], heatmap[1:,:,:,:,:], keypoint[1:,:,:]]
         self.window = window
 
     def __len__(self):
         # return self.length
-        return self.data_in[0].shape[0]
+        return len(files) # Lấy timestamps của camera làm độ dài dataset
 
-    def __getitem__(self, idx):
-        tactile = window_select(self.data_in[0],idx,self.window)
-        heatmap = self.data_in[1][idx,:,:,:,:]
-        keypoint = self.data_in[2][idx,:,:]
-        tactile_frame = self.data_in[0][idx,:,:]
+    def __getitem__(self, idx): #idx là iterator
+        with open(files[idx], "rb") as f:
+            sample_batched = pick.load(f)
+        tactileU = sample_batched[0] # Frame of tactiles
+        heatmapU = sample_batched[1] # Headmap
+        keypointU = sample_batched[2] # Keypoint
+        tactile_frameU = sample_batched[3] # Middle Frame
 
         if self.subsample > 1:
-            tactile = get_subsample(tactile, self.subsample)
+            tactileU = get_subsample(tactileU, self.subsample) # Nếu có chia theo subsample thì tính trung bình cacs pixel theo giá trị subsample
 
-        return tactile, heatmap, keypoint, tactile_frame
-# dataset = sample_data_diffTask('/content/tactile_keypoint_data/tactile_keypoint_data', 10, 1)
-# i = 0
-# for i_batch, sample_batched in enumerate(dataset):
-#   i += 1
-#   print(i_batch, len(sample_batched))
-#   print(sample_batched[0].shape, sample_batched[1].shape,sample_batched[2].shape,sample_batched[3].shape)
-#   #check heatmap viz
-#   print ("Time Step: ",i_batch)
-
-#   plt.imshow(sample_batched[3])
-
-#   img1 = plotKeypoint(np.reshape(sample_batched[2], (21,3)))
-
-#   # if shift_to_9tiles:
-#   #   img2 = plot3Dheatmap(round_to_1(np.reshape(heatmap[i,:,:,:,:]
-#   #                      ,(heatmap.shape[1], heatmap.shape[2], heatmap.shape[3], heatmap.shape[4])), 2), seperate=False)
-#   # else:
-#   #   img2 = plot3Dheatmap(round_to_1(np.reshape(heatmap[i,:,:,:,:]
-#   #                      ,(heatmap.shape[1], heatmap.shape[2], heatmap.shape[3], heatmap.shape[4])), 2), seperate=False)
-    
-#   plt.show()
-#   if i == 10:
-#     break
+        return tactileU, heatmapU, keypointU, tactile_frameU # Lấy M frames xung quanh 1 middle frame + heatmap + keypoint của middle frame
