@@ -123,10 +123,10 @@ class sample_data_diffTask_2(Dataset):
     def __getitem__(self, idx): #idx là iterator
         with open(self.files[idx], "rb") as f:
             sample_batched = pickle.load(f)
-        tactileU = sample_batched[0] # Frame of tactiles
-        heatmapU = sample_batched[1] # Headmap
-        keypointU = sample_batched[2] # Keypoint
-        tactile_frameU = sample_batched[3] # Middle Frame
+        tactileU = torch.squeeze(sample_batched[0], 0) # Frame of tactiles
+        heatmapU = torch.squeeze(sample_batched[1], 0) # Headmap
+        keypointU = torch.squeeze(sample_batched[2], 0) # Keypoint
+        tactile_frameU = torch.squeeze(sample_batched[3], 0) # Middle Frame
 
         if self.subsample > 1:
             tactileU = get_subsample(tactileU, self.subsample) # Nếu có chia theo subsample thì tính trung bình cacs pixel theo giá trị subsample
