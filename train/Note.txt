@@ -1,0 +1,6 @@
+Lưu checkpoint theo tên thí nghiệm
+Dùng evaluation để đánh giá giữa chừng
+Sau khi training có saving vài thứ, tuy nhiên đều có thể tái tạo lại được nếu có checkpoint best
+Đang chạy:
+- trainFull
+- trainOriginal
