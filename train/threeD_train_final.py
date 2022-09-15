@@ -207,6 +207,7 @@ if __name__ == '__main__':
     #     best_val_loss = 0.0734
 
     for epoch in range(args.epoch):
+        print(f">>> Epoch {epoch} <<<")
 
         train_loss = []
         val_loss = []
@@ -215,7 +216,6 @@ if __name__ == '__main__':
         bar = ProgressBar(max_value=len(train_dataloader))
 
         for i_batch, sample_batched in bar(enumerate(train_dataloader, 0)):
-            print(f">>> Epoch {i_batch} <<<")
             model.train(True)
             tactile = torch.tensor(sample_batched[0], dtype=torch.float, device=device)
             heatmap = torch.tensor(sample_batched[1], dtype=torch.float, device=device)
