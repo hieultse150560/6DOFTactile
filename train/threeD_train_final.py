@@ -215,6 +215,7 @@ if __name__ == '__main__':
         bar = ProgressBar(max_value=len(train_dataloader))
 
         for i_batch, sample_batched in bar(enumerate(train_dataloader, 0)):
+            print(f">>> Epoch {i_batch} <<<")
             model.train(True)
             tactile = torch.tensor(sample_batched[0], dtype=torch.float, device=device)
             heatmap = torch.tensor(sample_batched[1], dtype=torch.float, device=device)
@@ -242,7 +243,7 @@ if __name__ == '__main__':
 
             train_loss.append(loss.data.item())
 
-            if i_batch % 1000 ==0 and i_batch!=0: # Cứ 1000 batch lại evaluate 1 lần
+            if i_batch % 100 ==0 and i_batch!=0: # Cứ 1000 batch lại evaluate 1 lần
 
                 print("[%d/%d] LR: %.6f, Loss: %.6f, Heatmap_loss: %.6f, Keypoint_loss: %.6f, "
                       "k_max_gt: %.6f, k_max_pred: %.6f, k_min_gt: %.6f, k_min_pred: %.6f, "
@@ -295,7 +296,7 @@ if __name__ == '__main__':
                     else:
                         loss = loss_heatmap
 
-                    if i_batch % 300 == 0 and i_batch != 0:
+                    if i_batch % 50 == 0 and i_batch != 0:
                         #
                         print("[%d/%d] LR: %.6f, Loss: %.6f, Heatmap_loss: %.6f, Keypoint_loss: %.6f, "
                           "k_max_gt: %.6f, k_max_pred: %.6f, k_min_gt: %.6f, k_min_pred: %.6f, "
