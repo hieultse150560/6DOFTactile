@@ -268,6 +268,9 @@ if __name__ == '__main__':
                 'loss': loss,},
                  args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
                  + '_' + str(args.window) + '_' + 'cp'+ str(epoch) + '.path.tar')
+                
+                print("Saving to ", args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
+                 + '_' + str(args.window) + '_' + 'cp'+ str(epoch) + '.path.tar')
 
                 print("Now running on val set")
                 model.train(False)
@@ -329,6 +332,8 @@ if __name__ == '__main__':
                         'optimizer_state_dict': optimizer.state_dict(),
                         'loss': loss,},
                        args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
+                        + '_' + str(args.window) + '_best' + '.path.tar')
+                    print("Savning to ", args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
                         + '_' + str(args.window) + '_best' + '.path.tar')
 
             avg_train_loss = np.mean(train_loss)
