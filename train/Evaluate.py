@@ -58,7 +58,12 @@ def remove_small(heatmap, threshold, device):
     z = torch.zeros(heatmap.shape[0], heatmap.shape[1], heatmap.shape[2], heatmap.shape[3], heatmap.shape[4]).to(device)
     heatmap = torch.where(heatmap<threshold, z, heatmap)
     return heatmap 
-  
+
+# use_gpu = torch.cuda.is_available()
+# device = 'cuda:0' if use_gpu else 'cpu'
+use_gpu = True
+device = 'cuda:2'
+
 np.random.seed(0)
 torch.manual_seed(0)
 model = tile2openpose_conv3d(args.window) # model
