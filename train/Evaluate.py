@@ -77,7 +77,9 @@ scheduler = ReduceLROnPlateau(optimizer, 'min', factor=0.8, patience=5, verbose=
 pytorch_total_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
 print (f"Total parameters: {pytorch_total_params}")
 criterion = nn.MSELoss()
-    
+
+train_path = args.exp_dir + "batch_data/"
+mask = []
 test_dataset = sample_data_diffTask_2(train_path, args.window, args.subsample, "test")
 test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=8)
 print ("Test set size: ", len(test_dataset))
