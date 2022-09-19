@@ -393,12 +393,15 @@ if __name__ == '__main__':
 
     c = 0
     for i_batch, sample_batched in bar(enumerate(test_dataloader, 0)):
+        start = timeit.default_timer()
         tactile = torch.tensor(sample_batched[0], dtype=torch.float, device=device)
         heatmap = torch.tensor(sample_batched[1], dtype=torch.float, device=device)
         keypoint = torch.tensor(sample_batched[2], dtype=torch.float, device=device)
         tactile_frame = torch.tensor(sample_batched[3], dtype=torch.float, device=device)
+        stop = timeit.default_timer()
+        print('Time for loading data each test batch: ', stop - start)  
 
-
+        start = timeit.default_timer()
         with torch.set_grad_enabled(False):
             heatmap_out = model(tactile, device)
             heatmap_out = heatmap_out.reshape(-1, 21, 20, 20, 18) # Output shape từ model
@@ -407,12 +410,14 @@ if __name__ == '__main__':
 
         loss_heatmap = torch.mean((heatmap_transform - heatmap)**2 * (heatmap + 0.5) * 2) * 1000 # Loss heatmap
         heatmap_out = heatmap_transform
+        stop = timeit.default_timer()
+        print('Time for Feed Forward each test batch: ', stop - start)  
 
         if i_batch % 100 == 0 and i_batch != 0:
             print (i_batch, loss_heatmap)
             # loss = loss_heatmap
             # print (loss)
-
+'''
         '''export image'''
         # Nếu có in ra hình ảnh kết quả để kiểm nghiệm
         if args.exp_image:
@@ -481,3 +486,4 @@ if __name__ == '__main__':
         generateVideo(to_save,
                   args.exp_dir + 'predictions/video/' + args.ckpt,
                   heatmap=True)
+'''
