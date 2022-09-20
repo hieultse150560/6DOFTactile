@@ -232,23 +232,30 @@ if __name__ == '__main__':
             stop = timeit.default_timer()
             print('Time for loading data each training batch: ', stop - start)  
             
-            start = timeit.default_timer()
+            startO = timeit.default_timer()
             with torch.set_grad_enabled(True):
+                start = timeit.default_timer()
                 heatmap_out = model(tactile, device)
                 heatmap_out = heatmap_out.reshape(-1, 21, 20, 20, 18)
                 heatmap_transform = remove_small(heatmap_out.transpose(2,3), 1e-2, device)
+                stop = timeit.default_timer()
+                print('Time for Model fitting each training batch: ', stop - start)  
+                start = timeit.default_timer()
                 keypoint_out, heatmap_out2 = softmax(heatmap_transform * 10) 
-
+                stop = timeit.default_timer()
+                print('Time for Softmax each training batch: ', stop - start)  
+            start = timeit.default_timer()
             loss_heatmap = torch.mean((heatmap_transform - heatmap)**2 * (heatmap + 0.5) * 2) * 1000
             loss_keypoint = criterion(keypoint_out, keypoint) # For metric evaluation
-
             if args.linkLoss:
                 loss_link = torch.mean(check_link(link_min, link_max, keypoint_out, device)) * 10
                 loss = loss_heatmap + loss_link
             else:
                 loss = loss_heatmap
             stop = timeit.default_timer()
-            print('Time for Feed Forward each training batch: ', stop - start)  
+            print('Time for Calculating Loss each training batch: ', stop - start)  
+            stopO = timeit.default_timer()
+            print('---> Time for Feed Forward each training batch: ', stopO - startO)  
 
             start = timeit.default_timer()
             optimizer.zero_grad()
@@ -303,13 +310,20 @@ if __name__ == '__main__':
                     stop = timeit.default_timer()
                     print('Time for loading data each validation batch: ', stop - start)  
                     
-                    start = timeit.default_timer()
+                    startO = timeit.default_timer()
                     with torch.set_grad_enabled(False):
+                        start = timeit.default_timer()
                         heatmap_out = model(tactile, device)
                         heatmap_out = heatmap_out.reshape(-1, 21, 20, 20, 18)
                         heatmap_transform = remove_small(heatmap_out.transpose(2,3), 1e-2, device)
+                        stop = timeit.default_timer()
+                        print('Time for Model fitting each valid batch: ', stop - start) 
+                        start = timeit.default_timer()
                         keypoint_out, heatmap_out2 = softmax(heatmap_transform * 10)
-
+                        stop = timeit.default_timer()
+                        print('Time for Softmax each valid batch: ', stop - start)
+                    
+                    start = timeit.default_timer()
                     loss_heatmap = torch.mean((heatmap_transform - heatmap)**2 * (heatmap + 0.5) * 2) * 1000
                     loss_keypoint = criterion(keypoint_out, keypoint)
 
@@ -319,7 +333,9 @@ if __name__ == '__main__':
                     else:
                         loss = loss_heatmap
                     stop = timeit.default_timer()
-                    print('Time for Feed Forward each validation batch: ', stop - start)  
+                    print('Time for Calculating Loss each valid batch: ', stop - start)
+                    stopO = timeit.default_timer()
+                    print('---> Time for Feed Forward each validation batch: ', stopO - startO)  
                     
                     if i_batch % 50 == 0 and i_batch != 0:
                         #
@@ -402,7 +418,7 @@ if __name__ == '__main__':
         stop = timeit.default_timer()
         print('Time for loading data each test batch: ', stop - start)  
 
-        start = timeit.default_timer()
+        startO = timeit.default_timer()
         with torch.set_grad_enabled(False):
             heatmap_out = model(tactile, device)
             heatmap_out = heatmap_out.reshape(-1, 21, 20, 20, 18) # Output shape từ model
@@ -411,8 +427,8 @@ if __name__ == '__main__':
 
         loss_heatmap = torch.mean((heatmap_transform - heatmap)**2 * (heatmap + 0.5) * 2) * 1000 # Loss heatmap
         heatmap_out = heatmap_transform
-        stop = timeit.default_timer()
-        print('Time for Feed Forward each test batch: ', stop - start)  
+        stopO = timeit.default_timer()
+        print('---> Time for Feed Forward each test batch: ', stopO - start0)  
 
         if i_batch % 100 == 0 and i_batch != 0:
             print (i_batch, loss_heatmap)
