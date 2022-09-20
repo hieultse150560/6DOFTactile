@@ -23,7 +23,7 @@ warnings.filterwarnings("ignore")
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--exp_dir', type=str, default='./', help='Experiment path') #Change
-parser.add_argument('--exp', type=str, default='singlePeople', help='Name of experiment')
+parser.add_argument('--exp', type=str, default='singlePeopleFull', help='Name of experiment')
 parser.add_argument('--lr', type=float, default=1e-4, help='Learning rate') 
 parser.add_argument('--batch_size', type=int, default=256, help='Batch size,256')
 parser.add_argument('--weightdecay', type=float, default=1e-3, help='weight decay')
@@ -34,8 +34,8 @@ parser.add_argument('--epoch', type=int, default=500, help='The time steps you w
 parser.add_argument('--ckpt', type=str, default ='singlePerson_0.0001_10_best', help='loaded ckpt file') # Enter link of trained model
 parser.add_argument('--eval', type=bool, default=False, help='Set true if eval time') # Evaluation with test data. 2 Mode: Loading trained model and evaluate with test set, Training and Evaluation with evaluation set. 
 parser.add_argument('--test_dir', type=str, default ='./', help='test data path') # Link to test data
-parser.add_argument('--exp_image', type=bool, default=True, help='Set true if export predictions as images')
-parser.add_argument('--exp_video', type=bool, default=True, help='Set true if export predictions as video')
+parser.add_argument('--exp_image', type=bool, default=False, help='Set true if export predictions as images')
+parser.add_argument('--exp_video', type=bool, default=False, help='Set true if export predictions as video')
 parser.add_argument('--exp_data', type=bool, default=False, help='Set true if export predictions as raw data')
 parser.add_argument('--exp_L2', type=bool, default=True, help='Set true if export L2 distance')
 parser.add_argument('--train_continue', type=bool, default=False, help='Set true if eval time')
