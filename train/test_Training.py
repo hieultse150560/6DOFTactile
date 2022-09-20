@@ -428,7 +428,7 @@ if __name__ == '__main__':
         loss_heatmap = torch.mean((heatmap_transform - heatmap)**2 * (heatmap + 0.5) * 2) * 1000 # Loss heatmap
         heatmap_out = heatmap_transform
         stopO = timeit.default_timer()
-        print('---> Time for Feed Forward each test batch: ', stopO - start0)  
+        print('---> Time for Feed Forward each test batch: ', stopO - startO)  
 
         if i_batch % 100 == 0 and i_batch != 0:
             print (i_batch, loss_heatmap)
