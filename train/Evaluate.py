@@ -1,4 +1,4 @@
-# Sửa tên exp_dir để chạy đúng checkpoint đã lưu
+# Sửa tên exp để chạy đúng checkpoint đã lưu
 import torch.nn as nn
 import time
 from torch.autograd import Variable
