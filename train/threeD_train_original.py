@@ -31,11 +31,11 @@ parser.add_argument('--window', type=int, default=10, help='window around the ti
 parser.add_argument('--subsample', type=int, default=1, help='subsample tile res')
 parser.add_argument('--linkLoss', type=bool, default=True, help='use link loss') # Find min and max link
 parser.add_argument('--epoch', type=int, default=500, help='The time steps you want to subsample the dataset to,500')
-parser.add_argument('--ckpt', type=str, default ='singlePerson_0.0001_10_best', help='loaded ckpt file') # Enter link of trained model
+parser.add_argument('--ckpt', type=str, default ='singlePersonOrigin_0.0001_10_best', help='loaded ckpt file') # Enter link of trained model
 parser.add_argument('--eval', type=bool, default=False, help='Set true if eval time') # Evaluation with test data. 2 Mode: Loading trained model and evaluate with test set, Training and Evaluation with evaluation set. 
 parser.add_argument('--test_dir', type=str, default ='./', help='test data path') # Link to test data
-parser.add_argument('--exp_image', type=bool, default=True, help='Set true if export predictions as images')
-parser.add_argument('--exp_video', type=bool, default=True, help='Set true if export predictions as video')
+parser.add_argument('--exp_image', type=bool, default=False, help='Set true if export predictions as images')
+parser.add_argument('--exp_video', type=bool, default=False, help='Set true if export predictions as video')
 parser.add_argument('--exp_data', type=bool, default=False, help='Set true if export predictions as raw data')
 parser.add_argument('--exp_L2', type=bool, default=True, help='Set true if export L2 distance')
 parser.add_argument('--train_continue', type=bool, default=False, help='Set true if eval time')
@@ -174,17 +174,17 @@ if __name__ == '__main__':
     print (f"Total parameters: {pytorch_total_params}")
     criterion = nn.MSELoss()
 
-    # Fine tune
+#     # Fine tune
     
-    # if args.train_continue:
-    #     checkpoint = torch.load( args.exp_dir + 'ckpts/' + args.ckpt + '.path.tar')
-    #     model.load_state_dict(checkpoint['model_state_dict'])
-    #     optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-    #     # optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weightdecay)
-    #     epochs = checkpoint['epoch']
-    #     loss = checkpoint['loss']
-    #     print("ckpt loaded", loss)
-    #     print("Now continue training")
+#     if args.train_continue:
+#         checkpoint = torch.load(args.exp_dir + 'ckpts/' + args.ckpt + '.path.tar')
+#         model.load_state_dict(checkpoint['model_state_dict'])
+#         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+#         # optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weightdecay)
+#         epochs = checkpoint['epoch']
+#         loss = checkpoint['loss']
+#         print("ckpt loaded", loss)
+#         print("Now continue training")
 
     # Nếu chỉ đánh giá với tập test và pretrained model
 #     if args.eval:
@@ -242,7 +242,7 @@ if __name__ == '__main__':
 
             train_loss.append(loss.data.item())
 
-            if i_batch % 100 ==0 and i_batch!=0: # Cứ 1000 batch lại evaluate 1 lần
+            if i_batch % 1000 ==0 and i_batch!=0: # Cứ 1000 batch lại evaluate 1 lần
 
                 print("[%d/%d] LR: %.6f, Loss: %.6f, Heatmap_loss: %.6f, Keypoint_loss: %.6f, "
                       "k_max_gt: %.6f, k_max_pred: %.6f, k_min_gt: %.6f, k_min_pred: %.6f, "
@@ -258,18 +258,6 @@ if __name__ == '__main__':
                     print ("loss_heatmap:", loss_heatmap.cpu().data.numpy(),
                            "loss_link:", loss_link.cpu().data.numpy(),
                            "loss_keypoint:", loss_keypoint.cpu().data.numpy())
-
-
-                torch.save({
-                'epoch': epoch,
-                'model_state_dict': model.state_dict(),
-                'optimizer_state_dict': optimizer.state_dict(),
-                'loss': loss,},
-                 args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
-                 + '_' + str(args.window) + '_' + 'cp'+ str(epoch) + '.path.tar')
-                
-                print("Saving to ", args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
-                 + '_' + str(args.window) + '_' + 'cp'+ str(epoch) + '.path.tar')
 
                 print("Now running on val set")
                 model.train(False)
@@ -347,6 +335,17 @@ if __name__ == '__main__':
             to_save = [train_loss_list[1:],val_loss_list[1:]]
             pickle.dump(to_save, open( args.exp_dir + 'log/' + args.exp +
                                        '_' + str(args.lr) + '_' + str(args.window) + '.p', "wb" ))
+        torch.save({
+                'epoch': epoch,
+                'model_state_dict': model.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict(),
+                'loss': loss,},
+                 args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
+                 + '_' + str(args.window) + '_' + 'cp'+ str(epoch) + '.path.tar')
+                
+        print("Saving to ", args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
+                 + '_' + str(args.window) + '_' + 'cp'+ str(epoch) + '.path.tar') 
+
 
         print("Train Loss: %.6f, Valid Loss: %.6f" % (avg_train_loss, avg_val_loss))
         
@@ -444,7 +443,7 @@ if __name__ == '__main__':
     # Nếu có lưu lại kết quả distance giữa các keypoint để kiểm nghiệm (sau khi đã xếp chồng)
     if args.exp_L2:
         dis = get_keypoint_spatial_dis(keypoint_GT_log[1:,:,:], keypoint_pred_log[1:,:,:])
-        pickle.dump(dis, open(args.exp_dir + 'predictions/L2/'+ args.ckpt + '_dis.p', "wb"))
+        pickle.dump(dis, open(args.exp_dir + 'predictions/L2/'+ args.exp + '_dis.p', "wb"))
         print ("keypoint_dis_saved:", dis, dis.shape)
  
     # Tạo video
