@@ -92,7 +92,8 @@ optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
 epochs = checkpoint['epoch']
 loss = checkpoint['loss']
 print("Loaded loss:", loss)
-print("ckpt loaded:", args.ckpt)
+print("ckpt loaded:", args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
+                        + '_' + str(args.window) + '_best' + '.path.tar')
 print("Now running on test set")
 
 
