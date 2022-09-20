@@ -32,6 +32,7 @@ parser.add_argument('--window', type=int, default=10, help='window around the ti
 parser.add_argument('--subsample', type=int, default=1, help='subsample tile res')
 parser.add_argument('--linkLoss', type=bool, default=True, help='use link loss') # Find min and max link
 parser.add_argument('--epoch', type=int, default=1, help='The time steps you want to subsample the dataset to,500')
+parser.add_argument('--numwork', type=int, default=32, help='The number of workers')
 parser.add_argument('--ckpt', type=str, default ='singlePerson_0.0001_10_best', help='loaded ckpt file') # Enter link of trained model
 parser.add_argument('--eval', type=bool, default=False, help='Set true if eval time') # Evaluation with test data. 2 Mode: Loading trained model and evaluate with test set, Training and Evaluation with evaluation set. 
 parser.add_argument('--test_dir', type=str, default ='./', help='test data path') # Link to test data
@@ -136,23 +137,23 @@ if args.linkLoss:
 #               -> /singlePerson_test/
 if not args.eval:
     train_path = args.exp_dir + "batch_data/"
-    mask = []
-    start = timeit.default_timer()
 
+    start = timeit.default_timer()
+    
     train_dataset = sample_data_diffTask_2(train_path, args.window, args.subsample, "train")
-    train_dataloader = DataLoader(train_dataset, batch_size=args.batch_size,shuffle=True, num_workers=8)
+    train_dataloader = DataLoader(train_dataset, batch_size=args.batch_size,shuffle=True, num_workers=args.numwork)
     print ("Training set size:", len(train_dataset))
 
     val_dataset = sample_data_diffTask_2(train_path, args.window, args.subsample, "val")
-    val_dataloader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=8)
+    val_dataloader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.numwork)
     print ("Validation set size: ", len(val_dataset))
     
     test_dataset = sample_data_diffTask_2(train_path, args.window, args.subsample, "test")
-    test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=8)
+    test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.numwork)
     print ("Test set size: ", len(test_dataset))
    
     stop = timeit.default_timer()
-    print('Time for Reading Dataset: ', stop - start)  
+    print('Time for Setup Dataset: ', stop - start)  
     
 #!!!!!!!!!!!!!!!!!!!!!
 # Chuẩn bị data for testing
