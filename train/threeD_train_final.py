@@ -30,8 +30,8 @@ parser.add_argument('--weightdecay', type=float, default=1e-3, help='weight deca
 parser.add_argument('--window', type=int, default=10, help='window around the time step')
 parser.add_argument('--subsample', type=int, default=1, help='subsample tile res')
 parser.add_argument('--linkLoss', type=bool, default=True, help='use link loss') # Find min and max link
-parser.add_argument('--epoch', type=int, default=500, help='The time steps you want to subsample the dataset to,500')
-parser.add_argument('--numwork', type=int, default=8, help='The number of workers')
+parser.add_argument('--epoch', type=int, default=100, help='The time steps you want to subsample the dataset to,500')
+parser.add_argument('--numwork', type=int, default=16, help='The number of workers')
 parser.add_argument('--ckpt', type=str, default ='singlePerson_0.0001_10_best', help='loaded ckpt file') # Enter link of trained model
 parser.add_argument('--eval', type=bool, default=False, help='Set true if eval time') # Evaluation with test data. 2 Mode: Loading trained model and evaluate with test set, Training and Evaluation with evaluation set. 
 parser.add_argument('--test_dir', type=str, default ='./', help='test data path') # Link to test data
@@ -244,7 +244,7 @@ if __name__ == '__main__':
 
             train_loss.append(loss.data.item())
 
-            if i_batch % 100 ==0 and i_batch!=0: # Cứ 1000 batch lại evaluate 1 lần
+            if i_batch % 100 ==0 and i_batch!=0: # Cứ 100 batch lại evaluate 1 lần
 
                 print("[%d/%d] LR: %.6f, Loss: %.6f, Heatmap_loss: %.6f, Keypoint_loss: %.6f, "
                       "k_max_gt: %.6f, k_max_pred: %.6f, k_min_gt: %.6f, k_min_pred: %.6f, "
