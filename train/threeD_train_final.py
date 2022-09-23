@@ -446,7 +446,7 @@ if __name__ == '__main__':
     # Nếu có lưu lại kết quả distance giữa các keypoint để kiểm nghiệm (sau khi đã xếp chồng)
     if args.exp_L2:
         dis = get_keypoint_spatial_dis(keypoint_GT_log[1:,:,:], keypoint_pred_log[1:,:,:])
-        pickle.dump(dis, open(args.exp_dir + 'predictions/L2/'+ args.ckpt + '_dis.p', "wb"))
+        pickle.dump(dis, open(args.exp_dir + 'predictions/L2/'+ args.exp + '_dis.p', "wb"))
         print ("keypoint_dis_saved:", dis, dis.shape)
  
     # Tạo video
