@@ -204,4 +204,5 @@ if args.exp_video:
     print (to_save[0].shape, to_save[1].shape, to_save[2].shape, to_save[3].shape, to_save[4].shape)
 
     generateVideo(to_save,
-              args.exp_dir + 'predictions/video/' 
+              args.exp_dir + 'predictions/video/' + args.ckpt,
+              heatmap=True)
