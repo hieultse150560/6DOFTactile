@@ -180,7 +180,7 @@ if __name__ == '__main__':
     # optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weightdecay)
     epochs = checkpoint['epoch']
     loss = checkpoint['loss']
-    print("Ckpt's loss loaded from ", args.exp_dir + 'ckpts/' + args.ckpt + '.path.tar: ' + loss)
+    print(f"Ckpt's loss loaded from {args.exp_dir}ckpts/{args.ckpt}.path.tar: {loss}")
     print("Now continue training from ", args.exp_dir + 'ckpts/' + args.ckpt + '.path.tar')
 
 
