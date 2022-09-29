@@ -217,7 +217,7 @@ if __name__ == '__main__':
     #     best_val_loss = 0.0734
 
     for epoch in range(args.epoch):
-        print(f">>> Epoch {epoch} <<<")
+        print(f">>> Epoch {epoch+100} <<<")
 
         train_loss = []
         val_loss = []
