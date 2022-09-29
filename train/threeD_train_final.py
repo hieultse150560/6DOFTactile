@@ -30,13 +30,13 @@ parser.add_argument('--weightdecay', type=float, default=1e-3, help='weight deca
 parser.add_argument('--window', type=int, default=10, help='window around the time step')
 parser.add_argument('--subsample', type=int, default=1, help='subsample tile res')
 parser.add_argument('--linkLoss', type=bool, default=True, help='use link loss') # Find min and max link
-parser.add_argument('--epoch', type=int, default=100, help='The time steps you want to subsample the dataset to,500')
+parser.add_argument('--epoch', type=int, default=200, help='The time steps you want to subsample the dataset to,500')
 parser.add_argument('--numwork', type=int, default=16, help='The number of workers')
-parser.add_argument('--ckpt', type=str, default ='singlePerson_0.0001_10_best', help='loaded ckpt file') # Enter link of trained model
+parser.add_argument('--ckpt', type=str, default ='singlePeopleFull_2392022_0.0001_10_best', help='loaded ckpt file') # Enter link of trained model
 parser.add_argument('--eval', type=bool, default=False, help='Set true if eval time') # Evaluation with test data. 2 Mode: Loading trained model and evaluate with test set, Training and Evaluation with evaluation set. 
 parser.add_argument('--test_dir', type=str, default ='./', help='test data path') # Link to test data
-parser.add_argument('--exp_image', type=bool, default=True, help='Set true if export predictions as images')
-parser.add_argument('--exp_video', type=bool, default=True, help='Set true if export predictions as video')
+parser.add_argument('--exp_image', type=bool, default=False, help='Set true if export predictions as images')
+parser.add_argument('--exp_video', type=bool, default=False, help='Set true if export predictions as video')
 parser.add_argument('--exp_data', type=bool, default=False, help='Set true if export predictions as raw data')
 parser.add_argument('--exp_L2', type=bool, default=True, help='Set true if export L2 distance')
 parser.add_argument('--train_continue', type=bool, default=False, help='Set true if eval time')
@@ -165,7 +165,6 @@ if __name__ == '__main__':
     torch.manual_seed(0)
     model = tile2openpose_conv3d(args.window) # model
     softmax = SpatialSoftmax3D(20, 20, 18, 21) # trả về heatmap và ước tính keypoint từ heatmap predicted
-
     model.to(device)
     softmax.to(device)
 
@@ -174,6 +173,16 @@ if __name__ == '__main__':
     pytorch_total_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     print (f"Total parameters: {pytorch_total_params}")
     criterion = nn.MSELoss()
+
+    checkpoint = torch.load(args.exp_dir + 'ckpts/' + args.ckpt + '.path.tar')
+    model.load_state_dict(checkpoint['model_state_dict'])
+    optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+    # optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weightdecay)
+    epochs = checkpoint['epoch']
+    loss = checkpoint['loss']
+    print("Ckpt's loss loaded from ", args.exp_dir + 'ckpts/' + args.ckpt + '.path.tar: ' + loss)
+    print("Now continue training from ", args.exp_dir + 'ckpts/' + args.ckpt + '.path.tar')
+
 
     # Fine tune
     
@@ -268,10 +277,10 @@ if __name__ == '__main__':
                 'optimizer_state_dict': optimizer.state_dict(),
                 'loss': loss,},
                  args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
-                 + '_' + str(args.window) + '_' + 'cp'+ str(epoch) + '.path.tar')
+                 + '_' + str(args.window) + '_' + 'cp'+ str(epoch+100) + '.path.tar')
                 
                 print("Saving to ", args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
-                 + '_' + str(args.window) + '_' + 'cp'+ str(epoch) + '.path.tar')
+                 + '_' + str(args.window) + '_' + 'cp'+ str(epoch+100) + '.path.tar')
 
                 print("Now running on val set")
                 model.train(False)
