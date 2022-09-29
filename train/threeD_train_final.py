@@ -275,7 +275,7 @@ if __name__ == '__main__':
                 'epoch': epoch,
                 'model_state_dict': model.state_dict(),
                 'optimizer_state_dict': optimizer.state_dict(),
-                'loss': loss,},
+                'loss': best_val_loss,}, # Chỉnh lại saving cái gì
                  args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
                  + '_' + str(args.window) + '_' + 'cp'+ str(epoch+100) + '.path.tar')
                 
@@ -340,7 +340,7 @@ if __name__ == '__main__':
                         'epoch': epoch,
                         'model_state_dict': model.state_dict(),
                         'optimizer_state_dict': optimizer.state_dict(),
-                        'loss': loss,},
+                        'loss': best_val_loss,},
                        args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
                         + '_' + str(args.window) + '_best' + '.path.tar')
                     print("Saving to ", args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
