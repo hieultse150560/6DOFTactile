@@ -332,22 +332,23 @@ if __name__ == '__main__':
                 scheduler.step(np.mean(val_loss))
 
                 print ("val_loss:", np.mean(val_loss))
-                if np.mean(val_loss) < best_val_loss:
-                    print ("new_best_keypoint_l2:", np.mean(val_loss))
-                    best_val_loss = np.mean(val_loss)
 
-                    torch.save({
-                        'epoch': epoch,
-                        'model_state_dict': model.state_dict(),
-                        'optimizer_state_dict': optimizer.state_dict(),
-                        'loss': best_val_loss,},
-                       args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
-                        + '_' + str(args.window) + '_best' + '.path.tar')
-                    print("Saving to ", args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
-                        + '_' + str(args.window) + '_best' + '.path.tar')
 
             avg_train_loss = np.mean(train_loss)
             avg_val_loss = np.mean(val_loss)
+            if np.mean(val_loss) < best_val_loss:
+                print ("new_best_keypoint_l2:", np.mean(val_loss))
+                best_val_loss = np.mean(val_loss)
+
+                torch.save({
+                    'epoch': epoch,
+                    'model_state_dict': model.state_dict(),
+                    'optimizer_state_dict': optimizer.state_dict(),
+                    'loss': best_val_loss,},
+                   args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
+                    + '_' + str(args.window) + '_best' + '.path.tar')
+                print("Saving to ", args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
+                    + '_' + str(args.window) + '_best' + '.path.tar')
 
             avg_train_loss = np.array([avg_train_loss])
             avg_val_loss = np.array([avg_val_loss])
@@ -357,7 +358,7 @@ if __name__ == '__main__':
 
             to_save = [train_loss_list[1:],val_loss_list[1:]]
             pickle.dump(to_save, open( args.exp_dir + 'log/' + args.exp +
-                                       '_' + str(args.lr) + '_' + str(args.window) + '.p', "wb" ))
+                                       '_' + str(args.lr) + '_' + str(args.window) + '.p', "wb" )) # Nó có lưu lại loss
 
         print("Train Loss: %.6f, Valid Loss: %.6f" % (avg_train_loss, avg_val_loss))
         
