@@ -86,7 +86,7 @@ test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=F
 print ("Test set size: ", len(test_dataset))
     
 checkpoint = torch.load(args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
-                        + '_' + str(args.window) + '_best' + '.path.tar')
+                        + '_' + str(args.window) + '_cp250' + '.path.tar')
 model.load_state_dict(checkpoint['model_state_dict'])
 optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
 epochs = checkpoint['epoch']
