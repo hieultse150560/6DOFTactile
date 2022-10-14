@@ -93,7 +93,7 @@ epochs = checkpoint['epoch']
 loss = checkpoint['loss']
 print("Loaded loss:", loss)
 print("ckpt loaded:", args.exp_dir + 'ckpts/' + args.exp + '_' + str(args.lr)
-                        + '_' + str(args.window) + '_cp250' + '.path.tar')
+                        + '_' + str(args.window) + '_cp350' + '.path.tar')
 print("Now running on test set")
 
 
