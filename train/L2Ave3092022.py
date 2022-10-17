@@ -135,7 +135,7 @@ with open('./predictions/L2/singlePeopleOrigin_cp250_dis.p', 'rb') as f:
   
   print()
   
-print("Origin 250 epoches not best: ")
+print("Origin 299 epoches not best: ")
 with open('./predictions/L2/singlePeopleFull_2392022_cp299_dis.p', 'rb') as f:
   dis = pickle.load(f)
   print("Origin Evaluation: ")
@@ -154,7 +154,7 @@ with open('./predictions/L2/singlePeopleFull_2392022_cp299_dis.p', 'rb') as f:
   
   print()
   
-print("Origin 250 epoches not best: ")
+print("Origin 350 epoches not best: ")
 with open('./predictions/L2/singlePeopleOrigin_cp350_dis.p', 'rb') as f:
   dis = pickle.load(f)
   print("Origin Evaluation: ")
