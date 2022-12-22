@@ -23,9 +23,9 @@ warnings.filterwarnings("ignore")
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--exp_dir', type=str, default='./', help='Experiment path') #Change
-parser.add_argument('--exp', type=str, default='singlePeopleOrigin', help='Name of experiment')
+parser.add_argument('--exp', type=str, default='singlePeopleOrigin_22_12', help='Name of experiment')
 parser.add_argument('--lr', type=float, default=1e-4, help='Learning rate') 
-parser.add_argument('--batch_size', type=int, default=256, help='Batch size,256')
+parser.add_argument('--batch_size', type=int, default=32, help='Batch size,256')
 parser.add_argument('--weightdecay', type=float, default=1e-3, help='weight decay')
 parser.add_argument('--window', type=int, default=10, help='window around the time step')
 parser.add_argument('--subsample', type=int, default=1, help='subsample tile res')
@@ -34,10 +34,10 @@ parser.add_argument('--epoch', type=int, default=500, help='The time steps you w
 parser.add_argument('--ckpt', type=str, default ='singlePerson_0.0001_10_best', help='loaded ckpt file') # Enter link of trained model
 parser.add_argument('--eval', type=bool, default=False, help='Set true if eval time') # Evaluation with test data. 2 Mode: Loading trained model and evaluate with test set, Training and Evaluation with evaluation set. 
 parser.add_argument('--test_dir', type=str, default ='./', help='test data path') # Link to test data
-parser.add_argument('--exp_image', type=bool, default=False, help='Set true if export predictions as images')
-parser.add_argument('--exp_video', type=bool, default=False, help='Set true if export predictions as video')
+parser.add_argument('--exp_image', type=bool, default=True, help='Set true if export predictions as images')
+parser.add_argument('--exp_video', type=bool, default=True, help='Set true if export predictions as video')
 parser.add_argument('--exp_data', type=bool, default=False, help='Set true if export predictions as raw data')
-parser.add_argument('--exp_L2', type=bool, default=True, help='Set true if export L2 distance')
+parser.add_argument('--exp_L2', type=bool, default=False, help='Set true if export L2 distance')
 parser.add_argument('--train_continue', type=bool, default=False, help='Set true if eval time')
 args = parser.parse_args()
 
@@ -63,7 +63,7 @@ def remove_small(heatmap, threshold, device):
 # use_gpu = torch.cuda.is_available()
 # device = 'cuda:0' if use_gpu else 'cpu'
 use_gpu = True
-device = 'cuda:0'
+device = 'cuda:2'
 
 np.random.seed(0)
 torch.manual_seed(0)
@@ -133,7 +133,7 @@ for i_batch, sample_batched in bar(enumerate(test_dataloader, 0)):
     loss_heatmap = torch.mean((heatmap_transform - heatmap)**2 * (heatmap + 0.5) * 2) * 1000 # Loss heatmap
     heatmap_out = heatmap_transform
 
-    if i_batch % 100 == 0 and i_batch != 0:
+    if i_batch % 1000 == 0 and i_batch != 0:
         print (i_batch, loss_heatmap)
         # loss = loss_heatmap
         # print (loss)
@@ -148,12 +148,12 @@ for i_batch, sample_batched in bar(enumerate(test_dataloader, 0)):
                          keypoint_out.cpu().data.numpy().reshape(-1,21,3),
                          tactile_frame.cpu().data.numpy().reshape(-1,96,96)]
 
-        generateImage(imageData, args.exp_dir + 'predictions/image/', i_batch, base)
+        generateImage(imageData, args.exp_dir + 'predictions/image/', i_batch//1000, 0)
 
     '''log data for L2 distance and video'''
     # Lưu lại chồng các frame để in ra video
     if args.exp_video:
-        if i_batch>50 and i_batch<60: #set range
+        if i_batch>50 and i_batch<80: #set range
             heatmap_GT_v = np.append(heatmap_GT, heatmap.cpu().data.numpy().reshape(-1,21,20,20,18),axis=0)
             heatmap_pred_v = np.append(heatmap_pred, heatmap_out.cpu().data.numpy().reshape(-1,21,20,20,18),axis=0)
             keypoint_GT_v = np.append(keypoint_GT, keypoint.cpu().data.numpy().reshape(-1,21,3),axis=0)
@@ -204,5 +204,5 @@ if args.exp_video:
     print (to_save[0].shape, to_save[1].shape, to_save[2].shape, to_save[3].shape, to_save[4].shape)
 
     generateVideo(to_save,
-              args.exp_dir + 'predictions/video/' + args.ckpt,
+              args.exp_dir + 'predictions/video/' + args.exp + '_cp499',
               heatmap=True)
