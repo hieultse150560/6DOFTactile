@@ -23,7 +23,7 @@ warnings.filterwarnings("ignore")
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--exp_dir', type=str, default='./', help='Experiment path') #Change
-parser.add_argument('--exp', type=str, default='singlePeopleOrigin_22_12', help='Name of experiment')
+parser.add_argument('--exp', type=str, default='singlePeopleOrigin', help='Name of experiment')
 parser.add_argument('--lr', type=float, default=1e-4, help='Learning rate') 
 parser.add_argument('--batch_size', type=int, default=32, help='Batch size,256')
 parser.add_argument('--weightdecay', type=float, default=1e-3, help='weight decay')
